@@ -6,14 +6,20 @@ Zero dependencies. 👌
 
 ### Usage
 
-Just import it and use it as a DOM element.
+Import the package.
 
 ```javascript
 import sp from '@brslv/scroll-progress';
+```
 
-// In your DOM
+Then, simply use it in your DOM (just bellow the `body` tag, for example).
 
-<scroll-progress></scroll-progress>
+```html
+<body>
+    <scroll-progress></scroll-progress>
+
+    <!-- Other stuff... -->
+</body>
 ```
 
 That's it. 👍
@@ -22,8 +28,8 @@ That's it. 👍
 
 You can configure the height (in `px`) and the color of the bar.
 
-```javascript
-<scroll-progress color="#333222" height="3px">
+```html
+<scroll-progress color="#333222" height="3px"></scroll-progress>
 ```
 
 Enjoy! ⭐️
@@ -32,7 +38,7 @@ Enjoy! ⭐️
 
 MIT License
 
-Copyright (c) [year] [fullname]
+Copyright (c) 2019 Borislav Grigorov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
