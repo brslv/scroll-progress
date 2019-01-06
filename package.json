@@ -1,0 +1,13 @@
+{
+  "name": "@brslv/scroll-progress",
+  "version": "1.0.0",
+  "description": "A tiny vanilla custom component, which renders a small progress bar on the top of a vertical scrolling page.",
+  "main": "index.js",
+  "keywords": [
+    "scroll",
+    "progress",
+    "bar"
+  ],
+  "author": "Borislav Grigorov",
+  "license": "MIT"
+}
