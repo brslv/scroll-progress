@@ -1,18 +1,20 @@
-# Scroll Progress · ![](https://img.shields.io/github/license/brslv/scroll-progress.svg) ![](https://img.shields.io/github/issues/brslv/scroll-progress.svg) ![](https://img.shields.io/badge/dependencies-0-brightgreen.svg) ![](https://img.shields.io/badge/custom%20components-hell%20yeah!-yellow.svg)
+# Scroll Progress · [![install size](https://packagephobia.now.sh/badge?p=@brslv/scroll-progress)](https://packagephobia.now.sh/result?p=@brslv/scroll-progress) ![](https://img.shields.io/github/license/brslv/scroll-progress.svg) ![](https://img.shields.io/github/issues/brslv/scroll-progress.svg) ![](https://img.shields.io/badge/dependencies-0-brightgreen.svg) ![](https://img.shields.io/badge/custom%20elements-hell%20yeah!-yellow.svg)
 
 A tiny vanilla custom component, which renders a small progress bar on the top of a vertical scrolling page.
 
 Zero dependencies. 👌
+
+No node, browser only.
 
 ### Usage
 
 Import the package.
 
 ```javascript
-import sp from '@brslv/scroll-progress';
+import '@brslv/scroll-progress';
 ```
 
-Then, simply use it in your DOM (just bellow the `body` tag, for example).
+Then, simply use it in your DOM (just bellow the `<body>` tag, for example).
 
 ```html
 <body>
@@ -31,6 +33,25 @@ You can configure the height (in `px`) and the color of the bar.
 ```html
 <scroll-progress color="#333222" height="3px"></scroll-progress>
 ```
+
+### FAQ
+**Can I use this with React/Angular/Vue/Whatever-modern-framework?**
+
+Yep, you can.
+For example, in a react application, you can simply render this as any other built-in DOM element:
+```html
+<div>
+    <scroll-progress></scroll-progress>
+
+    {/* Other components bellow */}
+
+    <MyCustomComponent />
+</div>
+```
+
+**Which browsers do you support.**
+
+This is built on top of the [custom elements specification](https://www.webcomponents.org/specs). That's why you should take into consideration the following [browser support table](https://caniuse.com/#feat=custom-elementsv1) for *Custom Elements v1*.
 
 Enjoy! ⭐️
 
