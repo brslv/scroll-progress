@@ -1,4 +1,4 @@
-# Scroll Progress
+# Scroll Progress · ![](https://img.shields.io/github/license/brslv/scroll-progress.svg) ![](https://img.shields.io/github/issues/brslv/scroll-progress.svg) ![](https://img.shields.io/badge/dependencies-0-brightgreen.svg) ![](https://img.shields.io/badge/custom%20components-hell%20yeah!-yellow.svg)
 
 A tiny vanilla custom component, which renders a small progress bar on the top of a vertical scrolling page.
 
