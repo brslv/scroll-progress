@@ -9,5 +9,6 @@
     "bar"
   ],
   "author": "Borislav Grigorov",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": "brslv/scroll-progress"
 }
