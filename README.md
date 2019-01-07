@@ -27,11 +27,16 @@ Then, simply use it in your DOM (just bellow the `<body>` tag, for example).
 That's it. 👍
 
 ### Configurations
+| **Prop**    | **Possible values**       |
+| ----------- |---------------------------|
+| color       | any valid css color prop  |
+| height      | any valid css height prop |
+| position    | `top` / `bottom`          |
 
-You can configure the height (in `px`) and the color of the bar.
+Example:
 
 ```html
-<scroll-progress color="#333222" height="3px"></scroll-progress>
+<scroll-progress color="#333222" height="3px" position="bottom"></scroll-progress>
 ```
 
 ### FAQ
