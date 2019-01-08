@@ -53,7 +53,7 @@ function _handleDOMContentLoaded() {
             super();
 
             /**
-             * Flag, whether to update or not the scroll-progress.
+             * Flag, whether or not to update the scroll-progress.
              * 
              * @prop {boolean}
              */
