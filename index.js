@@ -52,6 +52,25 @@ function _handleDOMContentLoaded() {
         constructor() {
             super();
 
+            /**
+             * Flag, whether to update or not the scroll-progress.
+             * 
+             * @prop {boolean}
+             */
+            this.paused = false;
+
+            /**
+             * The current scroll-progress percentage.
+             * 
+             * @prop {Number}
+             */
+            this.percentage = 0;
+
+            /**
+             * The scroll-progress' shadow dom.
+             * 
+             * @prop {Element}
+             */
             this.$shadowDom = this.attachShadow({ mode: 'open' });
         }
 
@@ -118,19 +137,75 @@ function _handleDOMContentLoaded() {
         }
 
         /**
-         * Calculate the percentage for the progress
-         * and set it as width to the $wrapper element.
+         * Pause the scroll-progress updates.
+         * 
+         * @public
+         * @returns void
+         */
+        pause() {
+            this.paused = true;
+        }
+
+        /**
+         * Resume the scroll-progress updates.
+         * 
+         * @public
+         * @returns void
+         */
+        resume() {
+            this.paused = false;
+        }
+
+        /**
+         * Toggle the scroll-progress updates (on/off).
+         * 
+         * @public
+         * @returns void
+         */
+        togglePause() {
+            this.paused = !this.paused;
+        }
+
+        /**
+         * What happens when the window is scrolled.
          * 
          * @private
          * @param {Event} e The scroll event.
          * @returns {void}
          */
         _handleWindowScroll(e) {
+            this.percentage = this._calculateProgressPercentage();
+
+            if (!this.paused) {
+                this._update(this.percentage);
+
+                this._dispatch('update', { percentage: this.percentage });
+            }
+
+            this._dispatch('scroll-detected', { percentage: this.percentage, paused: this.paused });
+        }
+
+        /**
+         * Calculate the scroll percentage.
+         * 
+         * @private
+         * @returns {Number}
+         */
+        _calculateProgressPercentage() {
             const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
             const currentPosition = document.documentElement.scrollTop;
-            const percentage = (currentPosition / windowHeight) * 100;
 
-            this.$wrapper.style.width = `${percentage}%`;
+            return (currentPosition / windowHeight) * 100;
+        }
+
+        /**
+         * Update the scroll-progress.
+         * 
+         * @param {Number} percentage The scroll percentage to be rendered.
+         * @returns void
+         */
+        _update(percentage) {
+            this.$wrapper.style.width = `${this.percentage}%`;
         }
 
         /**
@@ -142,6 +217,27 @@ function _handleDOMContentLoaded() {
          */
         _attr(name) {
             return this.getAttribute(name);
+        }
+
+        /**
+         * Dispatch a CustomEvent.
+         * 
+         * @param {string} evtName The event's name.
+         * @param {object} detail Event details.
+         * @returns void
+         */
+        _dispatch(evtName, detail) {
+            this.dispatchEvent(
+                new CustomEvent(
+                    evtName,
+                    {
+                        bubbles: true,
+                        detail: {
+                            ...detail
+                        },
+                    }
+                )
+            );
         }
     }
 
