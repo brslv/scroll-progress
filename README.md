@@ -6,7 +6,7 @@ Zero dependencies. 👌
 
 No node, browser only.
 
-### Usage
+## Usage
 
 Import the package.
 
@@ -26,20 +26,81 @@ Then, simply use it in your DOM (just bellow the `<body>` tag, for example).
 
 That's it. 👍
 
-### Configurations
-| **Prop**    | **Possible values**       |
-| ----------- |---------------------------|
-| color       | any valid css color prop  |
-| height      | any valid css height prop |
-| position    | `top` / `bottom`          |
+## Configurations
 
-Example:
+### color
+Any valid css color prop. For example, `red`, `#333` or `#acacac`.
+
+### height
+Any valid css height prop: `5px`, `10%`, `5em`.
+
+### position
+`top` or `bottom`.
+
+### Example configuration:
 
 ```html
 <scroll-progress color="#333222" height="3px" position="bottom"></scroll-progress>
 ```
 
-### FAQ
+## API
+
+### [element].pause()
+
+Pause the scroll-progress updates.
+
+```javascript
+const element = document.querySelector('scroll-progress');
+
+element.pause();
+```
+
+### [element].resume()
+
+Resume the scroll-progress updates.
+
+```javascript
+element.resume();
+```
+
+## Events
+
+The `<scroll-element>` emits the following events:
+
+### scroll-detected
+
+Dispatches, when the scroll-progress detects a window scroll event.
+
+Resulting `event.detail` object contains:
+
+* `percentage` - the scroll percentage, when the event occured
+* `paused` - if the scroll-progress updates are being paused, when the event occured
+
+```javascript
+const element = document.querySelector('scroll-progress');
+element.addEventListener('scroll-detected', ({ detail }) => {
+    const { percentage, paused } = detail;
+});
+```
+
+### update
+
+Dispatches, when the scroll-progress bar updates. The difference between `scroll-detected` and `update` events is that the `update` happens when the scroll-progress is not paused. If it's paused, then only `scroll-detected` is fired, but `update` is not.
+
+Resulting `event.detail` object contains:
+
+* `percentages` - the scroll percentage, when the event occured
+
+```javascript
+const element = document.querySelector('scroll-progress');
+element.addEventListener('update', ({ detail }) => {
+    const { percentage } = detail;
+
+    /* You don't have the paused prop here (like in the "scroll-detected" event), because updates happen only when the scroll-progress is not being paused. */
+});
+```
+
+## FAQ
 **Can I use this with React/Angular/Vue/Whatever-modern-framework?**
 
 Yep, you can.
@@ -60,7 +121,7 @@ This is built on top of the [custom elements specification](https://www.webcompo
 
 Enjoy! ⭐️
 
-### License
+## License
 
 MIT License
 
