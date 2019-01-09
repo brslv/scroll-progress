@@ -46,6 +46,10 @@ function _handleDOMContentLoaded() {
             return '7px';
         }
 
+        static hiddenClassName() {
+            return 'scroll-progress-wrapper--hidden';
+        }
+
         /**
          * Attach an open shadow dom to the element.
          */
@@ -91,6 +95,9 @@ function _handleDOMContentLoaded() {
                         height: ${this.height()};
                         width: 0;
                         background: ${this.color()};
+                    }
+                    .scroll-progress-wrapper--hidden {
+                        display: none;
                     }
                 </style>
                 <div class="scroll-progress-wrapper" wrapper></div>
@@ -164,6 +171,42 @@ function _handleDOMContentLoaded() {
          */
         togglePause() {
             this.paused = !this.paused;
+        }
+
+        /**
+         * Hide the scroll-progress.
+         * 
+         * @public
+         * @returns void
+         */
+        hide() {
+            this.$wrapper.classList.add(ScrollProgress.hiddenClassName());
+        }
+
+        /**
+         * Show the scroll-progress.
+         * 
+         * @public
+         * @returns void
+         */
+        show() {
+            this.$wrapper.classList.remove(ScrollProgress.hiddenClassName());
+        }
+
+        /**
+         * Toggle the scroll-progress.
+         * 
+         * @public
+         * @returns void
+         */
+        toggleHidden() {
+            const isHidden = this.$wrapper.classList.contains(ScrollProgress.hiddenClassName());
+
+            if (isHidden) {
+                this.show();
+            } else {
+                this.hide();
+            }
         }
 
         /**
