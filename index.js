@@ -1,14 +1,14 @@
 /**
  * Register the scroll-progress custom element,
  * when the DOM is loaded.
- * 
+ *
  * @returns void
  */
 function _handleDOMContentLoaded() {
     class ScrollProgress extends HTMLElement {
         /**
          * Available positions (css props)to place the scroll-progress.
-         * 
+         *
          * @static
          * @returns {string[]}
          */
@@ -18,7 +18,7 @@ function _handleDOMContentLoaded() {
 
         /**
          * The default scroll-progress position.
-         * 
+         *
          * @static
          * @returns {string}
          */
@@ -28,7 +28,7 @@ function _handleDOMContentLoaded() {
 
         /**
          * The default scroll-progress color.
-         * 
+         *
          * @static
          * @returns {string}
          */
@@ -38,7 +38,7 @@ function _handleDOMContentLoaded() {
 
         /**
          * The default scroll-progress' height.
-         * 
+         *
          * @static
          * @returns {string}
          */
@@ -58,21 +58,28 @@ function _handleDOMContentLoaded() {
 
             /**
              * Flag, whether or not to update the scroll-progress.
-             * 
-             * @prop {boolean}
+             *
+             * @prop {Boolean}
              */
             this.paused = false;
 
             /**
+             * Flag, whether or not the scroll-progress is hidden.
+             *
+             * @type {Boolean}
+             */
+            this.hidden = false;
+
+            /**
              * The current scroll-progress percentage.
-             * 
+             *
              * @prop {Number}
              */
             this.percentage = 0;
 
             /**
              * The scroll-progress' shadow dom.
-             * 
+             *
              * @prop {Element}
              */
             this.$shadowDom = this.attachShadow({ mode: 'open' });
@@ -81,7 +88,7 @@ function _handleDOMContentLoaded() {
         /**
          * A DOM lifecycle, executed
          * when the element has been mounted.
-         * 
+         *
          * @returns void
          */
         connectedCallback() {
@@ -111,7 +118,7 @@ function _handleDOMContentLoaded() {
 
         /**
          * Get the scroll-progress' color.
-         * 
+         *
          * @public
          * @returns {string}
          */
@@ -121,7 +128,7 @@ function _handleDOMContentLoaded() {
 
         /**
          * Get the scroll-progress' height.
-         * 
+         *
          * @public
          * @returns {string}
          */
@@ -131,7 +138,7 @@ function _handleDOMContentLoaded() {
 
         /**
          * Get the scroll-progress' position.
-         * 
+         *
          * @public
          * @returns {string}
          */
@@ -145,7 +152,7 @@ function _handleDOMContentLoaded() {
 
         /**
          * Pause the scroll-progress updates.
-         * 
+         *
          * @public
          * @returns void
          */
@@ -155,7 +162,7 @@ function _handleDOMContentLoaded() {
 
         /**
          * Resume the scroll-progress updates.
-         * 
+         *
          * @public
          * @returns void
          */
@@ -165,7 +172,7 @@ function _handleDOMContentLoaded() {
 
         /**
          * Toggle the scroll-progress updates (on/off).
-         * 
+         *
          * @public
          * @returns void
          */
@@ -175,43 +182,43 @@ function _handleDOMContentLoaded() {
 
         /**
          * Hide the scroll-progress.
-         * 
+         *
          * @public
          * @returns void
          */
         hide() {
-            this.$wrapper.classList.add(ScrollProgress.hiddenClassName());
+            this.hidden = true;
+
+            this._update(this.percentage);
         }
 
         /**
          * Show the scroll-progress.
-         * 
+         *
          * @public
          * @returns void
          */
         show() {
-            this.$wrapper.classList.remove(ScrollProgress.hiddenClassName());
+            this.hidden = false;
+
+            this._update(this.percentage);
         }
 
         /**
          * Toggle the scroll-progress.
-         * 
+         *
          * @public
          * @returns void
          */
         toggleHidden() {
-            const isHidden = this.$wrapper.classList.contains(ScrollProgress.hiddenClassName());
+            this.hidden = !this.hidden;
 
-            if (isHidden) {
-                this.show();
-            } else {
-                this.hide();
-            }
+            this._update(this.percentage);
         }
 
         /**
          * What happens when the window is scrolled.
-         * 
+         *
          * @private
          * @param {Event} e The scroll event.
          * @returns {void}
@@ -222,15 +229,15 @@ function _handleDOMContentLoaded() {
             if (!this.paused) {
                 this._update(this.percentage);
 
-                this._dispatch('update', { percentage: this.percentage });
+                this._dispatch('update', { percentage: this.percentage, hidden: this.hidden });
             }
 
-            this._dispatch('scroll-detected', { percentage: this.percentage, paused: this.paused });
+            this._dispatch('scroll-detected', { percentage: this.percentage, paused: this.paused, hidden: this.hidden });
         }
 
         /**
          * Calculate the scroll percentage.
-         * 
+         *
          * @private
          * @returns {Number}
          */
@@ -243,17 +250,25 @@ function _handleDOMContentLoaded() {
 
         /**
          * Update the scroll-progress.
-         * 
+         *
          * @param {Number} percentage The scroll percentage to be rendered.
          * @returns void
          */
         _update(percentage) {
-            this.$wrapper.style.width = `${this.percentage}%`;
+            const hasHiddenClass = this.$wrapper.classList.contains(ScrollProgress.hiddenClassName());
+
+            if (this.hidden && !hasHiddenClass) {
+                this.$wrapper.classList.add(ScrollProgress.hiddenClassName());
+            } else if (!this.hidden && hasHiddenClass) {
+                this.$wrapper.classList.remove(ScrollProgress.hiddenClassName());
+            }
+
+            this.$wrapper.style.width = `${percentage}%`;
         }
 
         /**
          * Get an attribute's value.
-         * 
+         *
          * @private
          * @param {string} name The name of the attribute.
          * @returns {string | null}
@@ -264,7 +279,7 @@ function _handleDOMContentLoaded() {
 
         /**
          * Dispatch a CustomEvent.
-         * 
+         *
          * @param {string} evtName The event's name.
          * @param {object} detail Event details.
          * @returns void
