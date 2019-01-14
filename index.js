@@ -46,6 +46,13 @@ function _handleDOMContentLoaded() {
             return '7px';
         }
 
+        /**
+         * The class name that's being used, to signify
+         * the scroll-progress bar is hidden.
+         * 
+         * @static
+         * @returns {string}
+         */
         static hiddenClassName() {
             return 'scroll-progress-wrapper--hidden';
         }
