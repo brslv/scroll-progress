@@ -63,6 +63,27 @@ Resume the scroll-progress updates.
 element.resume();
 ```
 
+### [element].show()
+Show the scroll-progress bar.
+
+```javascript
+element.show();
+```
+
+### [element].hide()
+Hide the scroll-progress bar.
+
+```javascript
+element.hide();
+```
+
+### [element].toggleHidden()
+Toggle the hidden status of the scroll-progress bar.
+
+```javascript
+element.toggleHidden();
+```
+
 ## Events
 
 The `<scroll-element>` emits the following events:
@@ -75,11 +96,12 @@ Resulting `event.detail` object contains:
 
 * `percentage` - the scroll percentage, when the event occured
 * `paused` - if the scroll-progress updates are being paused, when the event occured
+* `hidden` - if the scroll-progress bar is hidden 
 
 ```javascript
 const element = document.querySelector('scroll-progress');
 element.addEventListener('scroll-detected', ({ detail }) => {
-    const { percentage, paused } = detail;
+    const { percentage, paused, hidden } = detail;
 });
 ```
 
@@ -90,11 +112,12 @@ Dispatches, when the scroll-progress bar updates. The difference between `scroll
 Resulting `event.detail` object contains:
 
 * `percentages` - the scroll percentage, when the event occured
+* `hidden` - if the scroll-progress bar is hidden
 
 ```javascript
 const element = document.querySelector('scroll-progress');
 element.addEventListener('update', ({ detail }) => {
-    const { percentage } = detail;
+    const { percentage, hidden } = detail;
 
     /* You don't have the paused prop here (like in the "scroll-detected" event), because updates happen only when the scroll-progress is not being paused. */
 });
